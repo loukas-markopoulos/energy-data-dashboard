@@ -1,10 +1,6 @@
 import pandas as pd
-import numpy as np 
 
-df = pd.read_csv('Example Data.csv')
+data = pd.read_csv('Data.csv')
 
-del df['Consumer Name']
+data.head(3)
 
-data = np.array(df)
-
-print(f'{data}')
