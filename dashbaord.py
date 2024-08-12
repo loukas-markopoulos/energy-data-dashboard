@@ -27,9 +27,7 @@ app.layout = html.Div(children=[
 )
 
 def update_graph(selected_consumer):
-    line_fig = px.line(data, 
-                       x= 'Month', y= selected_consumer,
-                       title=f'Energy Consumption of {selected_consumer}')
+    line_fig = px.bar(data, x= 'Month', y= selected_consumer, barmode ='group', title=f'Energy Consumption of {selected_consumer}')
     return line_fig
 
 if __name__ == '__main__':
