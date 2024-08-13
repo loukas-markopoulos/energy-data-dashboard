@@ -32,11 +32,14 @@ layout = html.Div([
 def update_graph_2(selected_month):
     df_2_1 = data
     for i in range(12):
-        if df_2_1.iloc[i]['Month'] == selected_month:
-            if df_2_1.iloc[i][-1] == 0:
-                df_2_2 = df_2_1.iloc[i][-122:-61]
+        if df_2_1.loc[i]['Month'] == selected_month:
+            month_data = df_2_1.loc[i]
+            length = month_data.count()
+            if month_data.iloc[-1] > 0 == False:
+                filtered_month_data = month_data[(length - 122):(length - 61)]
             else:
-                df_2_2 = df_2_1.iloc[i][-61:0]
+                filtered_month_data = month_data[(length - 61):length]
+            df_2_2 = pd.DataFrame([filtered_month_data])
         
             pie_chart = px.pie(data_frame=df_2_2)
             return pie_chart

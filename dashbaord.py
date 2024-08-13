@@ -13,7 +13,7 @@ app = Dash(__name__, use_pages=True)
 
 
 app.layout = html.Div([
-     html.H1(children='Energy Consumption Graphs'),
+     html.H1(children='Energy consumption of site'),
      
      html.Div([
          dcc.Link(page['name']+"   |   ", href=page['path'])
