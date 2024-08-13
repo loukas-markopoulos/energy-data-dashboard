@@ -14,7 +14,8 @@ app.layout = html.Div(children=[
     html.H1(children='Energy Consumption Graphs'),
     dcc.Dropdown(id='consumer-dropdown',
                  options=[{'label' : str(i), 'value' : str(i)}
-                          for i in data.columns.unique()],
+                          for i in data.columns[1:].unique()],
+
                  searchable=True,
                  multi=True),
     dcc.Graph(id='consumption-graph')
