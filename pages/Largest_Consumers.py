@@ -29,17 +29,24 @@ layout = html.Div([
     Input(component_id='month-highest-consumer', component_property='value')
  )
 
-def update_graph_2(selected_month):
+def update_graph(selected_month):
     df_2_1 = data
     for i in range(12):
-        if df_2_1.loc[i]['Month'] == selected_month:
+        if df_2_1.loc[i]['Month'] == f'{selected_month}':
             month_data = df_2_1.loc[i]
             length = month_data.count()
-            if month_data.iloc[-1] > 0 == False:
+
+            if month_data.iloc[-1] == 0:
                 filtered_month_data = month_data[(length - 122):(length - 61)]
             else:
                 filtered_month_data = month_data[(length - 61):length]
+            
             df_2_2 = pd.DataFrame([filtered_month_data])
-        
-            pie_chart = px.pie(data_frame=df_2_2)
-            return pie_chart
+            df_2_2 = df_2_2.T
+            df_2_2 = df_2_2.rename(columns={df_2_2.columns[0]: 'Consumption'})
+            sorted_df = df_2_2.sort_values(by='Consumption', ascending=False)
+
+            line_fig = px.bar(sorted_df, x= sorted_df.index, y= 'Consumption', title=f'Energy Consumption in {selected_month}')
+            break
+
+    return line_fig
