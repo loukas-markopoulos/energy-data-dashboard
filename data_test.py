@@ -17,7 +17,7 @@ df_2_1 = data
 # new = new.T
 # print(new)
 
-selected_month = "AUG"
+selected_month = "JAN"
 
 for i in range(12):
         if df_2_1.loc[i]['Month'] == selected_month:
