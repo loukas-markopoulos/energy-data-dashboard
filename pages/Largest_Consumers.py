@@ -1,16 +1,13 @@
 import dash
-from dash import Dash, dcc, html, dash_table, callback
+from dash import dcc, html, callback
 from dash.dependencies import Input, Output
-from data import data
-import pandas as pd
 import plotly.express as px
-import plotly.graph_objects as go
-
-data = pd.read_csv('Data.csv', header = 1)
-data.drop(data.columns[len(data.columns)-1], axis=1, inplace=True)
+import pandas as pd
+from Data_Table import global_df
 
 dash.register_page(__name__, name='Largest Consumer')
 
+data = global_df
 
 layout = html.Div([
     html.Div([
@@ -19,10 +16,9 @@ layout = html.Div([
                     options=[{'label' : str(i), 'value' : str(i)}
                             for i in data['Month'].unique()],
 
-                    multi=False),
+                    multi=False,),
         
         dcc.Graph(id='max-consumers'),
-        dash_table.DataTable(id='data-table')
     ])   
 ])
 
@@ -33,15 +29,16 @@ layout = html.Div([
 
 def update_graph(selected_month):
     df_2_1 = data
+    consumer_no = 61
     for i in range(12):
         if df_2_1.loc[i]['Month'] == f'{selected_month}':
             month_data = df_2_1.loc[i]
             length = month_data.count()
 
             if month_data.iloc[-1] == 0:
-                filtered_month_data = month_data[(length - 122):(length - 61)]
+                filtered_month_data = month_data[(length - (2*consumer_no)):(length - consumer_no)]
             else:
-                filtered_month_data = month_data[(length - 61):length]
+                filtered_month_data = month_data[(length - consumer_no):length]
             
             df_2_2 = pd.DataFrame([filtered_month_data])
             df_2_2 = df_2_2.T
@@ -52,32 +49,3 @@ def update_graph(selected_month):
             break
 
     return line_fig
-
-@callback(
-    Output(component_id='data-table', component_property='figure'),
-    Input(component_id='month-highest-consumer', component_property='value')
- )
-def update_table(selected_month):
-    df_2_1 = data
-    for i in range(12):
-        if df_2_1.loc[i]['Month'] == f'{selected_month}':
-            month_data = df_2_1.loc[i]
-            length = month_data.count()
-
-            if month_data.iloc[-1] == 0:
-                filtered_month_data = month_data[(length - 122):(length - 61)]
-            else:
-                filtered_month_data = month_data[(length - 61):length]
-            
-            df_2_2 = pd.DataFrame([filtered_month_data])
-            df_2_2 = df_2_2.T
-            df_2_2 = df_2_2.rename(columns={df_2_2.columns[0]: 'Consumption'})
-            sorted_df = df_2_2.sort_values(by='Consumption', ascending=False)
-
-            table = go.Figure(data=[go.Table(
-                header=dict(values=['Consumer', 'Consumption']),
-                cells=dict(values=[sorted_df.index, sorted_df.Consumption])
-            )])
-            break
-
-    return table

@@ -1,14 +1,12 @@
 import dash
-from dash import Dash, dcc, html, dash_table, callback
+from dash import dcc, html, callback
 from dash.dependencies import Input, Output
-from data import data
-import pandas as pd
 import plotly.express as px
+from Data_Table import global_df
 
-data = pd.read_csv('Data.csv', header = 1)
-data.drop(data.columns[len(data.columns)-1], axis=1, inplace=True)
+dash.register_page(__name__, name='Year Graph')
 
-dash.register_page(__name__, path='/', name='Year Graph')
+data = global_df
 
 layout = html.Div([
     html.Div([
