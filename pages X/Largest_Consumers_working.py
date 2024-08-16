@@ -3,32 +3,38 @@ from dash import dcc, html, callback
 from dash.dependencies import Input, Output
 import plotly.express as px
 import pandas as pd
-import pandas as pd
 
 dash.register_page(__name__, name='Largest Consumer')
 
-data = pd.read_csv('Data.csv', header = 1)
-data.drop(data.columns[len(data.columns)-1], axis=1, inplace=True)
-
 layout = html.Div([
-    html.Div([
-        html.H1(children='Largest consumers per month'),
-        dcc.Dropdown(id='month-highest-consumer',
+    html.H1(children='Largest consumers per month'),
+    html.Div(id='dropdown1'),
+    dcc.Graph(id='max-consumers')
+
+])
+
+#update dropdown
+@callback(
+        Output('dropdown1', 'value'),
+        Input('stored-data', 'data')
+)
+
+def add_dropdown(data):
+    pd.DataFrame.from_dict(data)
+    return dcc.Dropdown(id='month-highest-consumer',
                     options=[{'label' : str(i), 'value' : str(i)}
                             for i in data['Month'].unique()],
 
                     multi=False,),
-        
-        dcc.Graph(id='max-consumers'),
-    ])   
-])
-
+#update graph
 @callback(
     Output(component_id='max-consumers', component_property='figure'),
-    Input(component_id='month-highest-consumer', component_property='value')
+    Input(component_id='month-highest-consumer', component_property='value'),
+    Input('stored-data', 'data')
  )
 
-def update_graph(selected_month):
+def update_graph(selected_month, data):
+    pd.DataFrame.from_dict(data)
     df_2_1 = data
     consumer_no = 61
     for i in range(12):
