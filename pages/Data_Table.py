@@ -16,6 +16,7 @@ layout = html.Div([
         ]),
         multiple=True,
     ),
+    dcc.Store(id='stored-data', data=[], storage_type='memory'),
     html.Div(id='output-datatable'),
 ])
 
@@ -33,11 +34,15 @@ def parse_contents(contents, filename, date):
             # Assume that the user uploaded an excel file
             df = pd.read_excel(io.BytesIO(decoded), header = 1)
             df.drop(df.columns[len(df.columns)-1], axis=1, inplace=True)
+    
     except Exception as e:
         print(e)
         return html.Div([
             'There was an error processing this file.'
+            
         ])
+    
+    dcc.Store(id='stored-data', data=df.to_dict('records')),
 
     return html.Div([
         html.H5(filename),
@@ -47,7 +52,6 @@ def parse_contents(contents, filename, date):
             columns=[{'name': i, 'id': i} for i in df.columns],
             page_size=15
         ),
-        dcc.Store(id='stored-data', data=df.to_dict('records')),
 
         html.Hr(),  # horizontal line
 
@@ -69,3 +73,21 @@ def update_output(list_of_contents, list_of_names, list_of_dates):
             parse_contents(c, n, d) for c, n, d in
             zip(list_of_contents, list_of_names, list_of_dates)]
         return children
+
+@callback(
+        Output('stored-data', 'data'),
+        Input('upload-data', 'data'),
+        State('upload-data', 'filename'),
+        State('upload-data', 'last_modified')
+)
+
+def parse_data(contents, list_of_names, list_of_dates):
+    content_type, content_string = contents.split(',')
+
+    decoded = base64.b64decode(content_string)
+
+    df = pd.read_csv(io.StringIO(decoded.decode('utf-8')), header=1)
+    df.drop(df.columns[len(df.columns)-1], axis=1, inplace=True)
+    data = df.to_json(orient='split')
+
+    return data

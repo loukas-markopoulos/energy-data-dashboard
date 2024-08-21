@@ -19,14 +19,16 @@ layout = html.Div([
 )
 
 def add_dropdown(data):
-    pd.DataFrame.from_dict(data)
-    return dcc.Dropdown(id='consumer-dropdown',
+    df = pd.DataFrame(data)
+    return html.Div([
+        dcc.Dropdown(id='consumer-dropdown',
                     options=[{'label' : str(i), 'value' : str(i)}
-                            for i in data.columns[1:].unique()],
+                            for i in df.columns[1:].unique()],
 
                     searchable=True,
                     clearable=False,
                     multi=True),
+    ])
 
 #update graph
 @callback(
@@ -36,7 +38,6 @@ def add_dropdown(data):
 )
 
 def update_graph_1(selected_consumer, data):
-    pd.DataFrame.from_dict(data)
-    df_1 = data
+    df_1 = pd.DataFrame(data)
     line_fig = px.bar(df_1, x= 'Month', y= selected_consumer, barmode ='group', title=f'Energy Consumption of {selected_consumer}')
     return line_fig

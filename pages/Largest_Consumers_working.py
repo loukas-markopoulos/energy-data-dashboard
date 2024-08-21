@@ -20,12 +20,14 @@ layout = html.Div([
 )
 
 def add_dropdown(data):
-    pd.DataFrame.from_dict(data)
-    return dcc.Dropdown(id='month-highest-consumer',
+    df = pd.DataFrame(data)
+    return html.Div([
+        dcc.Dropdown(id='month-highest-consumer',
                     options=[{'label' : str(i), 'value' : str(i)}
-                            for i in data['Month'].unique()],
+                            for i in df['Month'].unique()],
 
                     multi=False,),
+    ])
 #update graph
 @callback(
     Output(component_id='max-consumers', component_property='figure'),
@@ -34,8 +36,7 @@ def add_dropdown(data):
  )
 
 def update_graph(selected_month, data):
-    pd.DataFrame.from_dict(data)
-    df_2_1 = data
+    df_2_1 = pd.DataFrame(data)
     consumer_no = 61
     for i in range(12):
         if df_2_1.loc[i]['Month'] == f'{selected_month}':
