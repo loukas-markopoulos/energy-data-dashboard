@@ -4,9 +4,10 @@ from dash import html, dcc, Dash, callback
 
 
 app = Dash(__name__, use_pages=True)
+app.config.suppress_callback_exceptions=True
 
 app.layout = html.Div([
-     dcc.Store(id='stored-data', data=[], storage_type='memory'),
+     dcc.Store(id='stored-data', storage_type='memory'),
      html.H1(children='Energy consumption of site'),
      html.Div([
         dcc.Link(page['name']+"   |   ", href=page['path'])

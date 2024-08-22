@@ -16,7 +16,7 @@ layout = html.Div([
         ]),
         multiple=True,
     ),
-    dcc.Store(id='stored-data', data=[], storage_type='memory'),
+    dcc.Store(id='stored-data', storage_type='memory'),
     html.Div(id='output-datatable'),
 ])
 
@@ -42,7 +42,7 @@ def parse_contents(contents, filename, date):
             
         ])
     
-    dcc.Store(id='stored-data', data=df.to_dict('records')),
+#    dcc.Store(id='stored-data', data=df.to_dict('records')),
 
     return html.Div([
         html.H5(filename),
@@ -74,20 +74,28 @@ def update_output(list_of_contents, list_of_names, list_of_dates):
             zip(list_of_contents, list_of_names, list_of_dates)]
         return children
 
+
+
+def parse_data(contents):
+    if isinstance(contents, list):
+        contents = contents[0]
+    content_type, content_string = contents.split(',')
+    decoded = base64.b64decode(content_string)
+    df = pd.read_csv(
+                io.StringIO(decoded.decode('utf-8')), header = 1)
+    df.drop(df.columns[len(df.columns)-1], axis=1, inplace=True)
+        
+    return df
+    
+
 @callback(
         Output('stored-data', 'data'),
-        Input('upload-data', 'data'),
-        State('upload-data', 'filename'),
-        State('upload-data', 'last_modified')
+        Input('upload-data', 'contents'),
+        #State('upload-data', 'filename'),
+        #State('upload-data', 'last_modified')
 )
 
-def parse_data(contents, list_of_names, list_of_dates):
-    content_type, content_string = contents.split(',')
-
-    decoded = base64.b64decode(content_string)
-
-    df = pd.read_csv(io.StringIO(decoded.decode('utf-8')), header=1)
-    df.drop(df.columns[len(df.columns)-1], axis=1, inplace=True)
-    data = df.to_json(orient='split')
-
-    return data
+def store_data(contents):
+    if contents is not None:
+        df = parse_data(contents)
+        return df.to_dict('records')
