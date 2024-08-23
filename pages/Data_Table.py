@@ -28,8 +28,6 @@ def parse_data(contents):
     decoded = base64.b64decode(content_string)
     df = pd.read_csv(
                 io.StringIO(decoded.decode('utf-8')))
-    #df.drop(df.columns[len(df.columns)-1], axis=1, inplace=True)
-        
     return df
     
 
