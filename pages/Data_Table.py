@@ -27,8 +27,8 @@ def parse_data(contents):
     content_type, content_string = contents.split(',')
     decoded = base64.b64decode(content_string)
     df = pd.read_csv(
-                io.StringIO(decoded.decode('utf-8')), header = 1)
-    df.drop(df.columns[len(df.columns)-1], axis=1, inplace=True)
+                io.StringIO(decoded.decode('utf-8')))
+    #df.drop(df.columns[len(df.columns)-1], axis=1, inplace=True)
         
     return df
     
@@ -56,7 +56,7 @@ def update_table(data, filename):
         dash_table.DataTable(
             data=df.to_dict('records'),
             columns=[{'name': i, 'id': i} for i in df.columns],
-            page_size=15
+            style_table={'overflowX':'auto', 'width':'100%'}
         ),
 
         html.Hr(),  # horizontal line
