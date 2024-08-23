@@ -56,7 +56,6 @@ def update_table(data, filename):
         dash_table.DataTable(
             data=df.to_dict('records'),
             columns=[{'name': i, 'id': i} for i in df.columns],
-            page_size=15,
             style_table={'overflowX': 'auto', 'maxWidth':'100%'},
         ),
 
