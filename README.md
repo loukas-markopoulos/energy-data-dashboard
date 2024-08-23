@@ -7,7 +7,7 @@ Data - prints the uploaded CSV file as a data table that includes different cons
 
 Largest Consumer - the dropdown allows you to select one month which then prints a bar chart of each consumer's energy consumption in descending order. It will do this for the year which that month has passed in most recently (eg. if it is August and you select July, it will show this year's July's data. However if you select September, it will show last year's September's data since there is no data for next month yet).
 
-Year Graph - the dropdwon allows you to select one or more consumer which then prints a bar chart of those consumers' energy consumption next to each other for each month across the year selected.
+Year Graph - the dropdown allows you to select one or more consumer which then prints a bar chart of those consumers' energy consumption next to each other for each month across the year selected.
 
 ## Creating a compatible CSV file
 Saved in this repository is an example of an excel file (Data_test.xlsx) that should be adapted to create a table with your specific data. 
@@ -18,7 +18,7 @@ In each cell within the table, a value for the energy consumption of that machin
 
 In this case, 61 consumers are being analysed across 2 years however these can be changed:
 
-If you want to analyse a different number of consumers, line 44 in the file 'Largest_Consumers_working' must be changed to the desired number. Then in your excel file ensure the number of columns is a multiple of the number of consumers.
+If you want to analyse a different number of consumers, line 44 in the file 'Largest_Consumers' must be changed to the desired number. Then in your excel file ensure the number of columns (excluding 'Month' column) is a multiple of the number of consumers.
 ```python
 [44] consumer_no = *your number of consumers here*
 ```
