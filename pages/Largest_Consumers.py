@@ -7,9 +7,10 @@ import pandas as pd
 dash.register_page(__name__, name='Largest Consumer')
 
 layout = html.Div([
-    html.H1(children='Largest consumers per month'),
+    html.H1(children='Largest Consumers per Month'),
     html.Div(id='dropdown1'),
     dcc.Graph(id='max-consumers'),
+    html.Hr(),
     dcc.Store(id='stored-data', storage_type='memory'),
 ])
 

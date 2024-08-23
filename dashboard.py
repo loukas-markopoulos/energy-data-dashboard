@@ -8,7 +8,7 @@ app.config.suppress_callback_exceptions=True
 
 app.layout = html.Div([
      dcc.Store(id='stored-data', storage_type='memory'),
-     html.H1(children='Energy consumption of site'),
+     html.H1(children='Energy Consumption Dashboard', style=dict(textAlign='center')),
      html.Div([
         dcc.Link(page['name']+"   |   ", href=page['path'])
         for page in dash.page_registry.values()         

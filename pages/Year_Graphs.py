@@ -7,9 +7,10 @@ import pandas as pd
 dash.register_page(__name__, name='Year Graph')
 
 layout = html.Div([
-    html.H1(children='Energy consumption across the whole year'),
+    html.H1(children='Energy Consumption across the whole Year'),
     html.Div(id='dropdown2'),
     dcc.Graph(id='consumption-graph'),
+    html.Hr(),
     dcc.Store(id='stored-data', storage_type='memory'),
 ])
 #create dropdown

@@ -12,7 +12,8 @@ layout = html.Div([
     dcc.Upload(
         id='upload-data',
         children=html.Div([
-            html.A('Click here to select CSV file')
+            'Drag and Drop or',
+            html.A(' Select CSV File')
         ]),
         multiple=True,
     ),

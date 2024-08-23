@@ -3,7 +3,7 @@
 This dashboard will allow the user to upload a data table (CSV file) to the web app which has 3 pages.
 
 ## Pages
-Data - prints the uploaded CSV file as a data table that includes different consumer's energy cosnumption that can be scrolled through. To upload the CSV file, simply click on the 'Click here to select CSV file' text.
+Data - prints the uploaded CSV file as a data table that includes different consumer's energy cosnumption that can be scrolled through. To upload the CSV file, simply click on the 'Select Files' text or drag an drop the CSV file in that location.
 
 Largest Consumer - the dropdown allows you to select one month which then prints a bar chart of each consumer's energy consumption in descending order. It will do this for the year which that month has passed in most recently (eg. if it is August and you select July, it will show this year's July's data. However if you select September, it will show last year's September's data since there is no data for next month yet).
 
