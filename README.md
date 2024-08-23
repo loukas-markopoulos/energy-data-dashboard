@@ -30,7 +30,7 @@ Do not change any of the first column ('Month').
 Ensure to convert your excel file to a CSV file before uploading it to the web app.
 
 ## Styling
-A CSS file for styling has not been selected however is being developed. 
+The CSS file for styling can be edited to your liking. 
 
 ## License
 [GNU GPLv3](https://choosealicense.com/licenses/gpl-3.0/)
